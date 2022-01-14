@@ -1,0 +1,172 @@
+<?php
+
+use produk as GlobalProduk;
+
+class produk
+{
+    private $judul,
+        $penerbit,
+        $penulis,
+        $harga,
+        $diskon = 0;
+
+
+    public function __construct($judul, $penerbit = "penerbit", $penulis = "penulis", $harga = 1)
+    {
+        $this->judul = $judul;
+        $this->penerbit = $penerbit;
+        $this->penulis = $penulis;
+        $this->harga = $harga;
+    }
+
+    public function setjudul($judul)
+    {
+
+        $this->judul = $judul;
+    }
+
+
+    public function getjudul()
+    {
+        return $this->judul;
+    }
+
+    public function setpenulis($penulis)
+    {
+        $this->penulis = $penulis;
+    }
+
+    public function getpenulis()
+    {
+        return $this->penulis;
+    }
+
+    public function setpenerbit($penerbit)
+    {
+        $this->penerbit = $penerbit;
+    }
+
+    public function getpenerbit()
+    {
+        return $this->penerbit;
+    }
+
+    public function setdiskon($diskon)
+    {
+        $this->diskon = $diskon;
+    }
+
+    public function getdiskon()
+    {
+        return $this->diskon;
+    }
+
+
+    public function setharga($harga)
+    {
+        $this->harga = $harga;
+    }
+
+    public function getharga()
+    {
+        return $this->harga - ($this->harga * $this->diskon / 100);
+    }
+
+
+    public function getlabel()
+    {
+        return "$this->penulis, $this->penerbit";
+    }
+
+
+    public function getinfoproduk()
+    {
+        $str = " {$this->judul} | {$this->getlabel()} (rp . {$this->harga})";
+
+        return $str;
+    }
+}
+
+
+class game extends produk
+{
+    public $waktumain;
+
+    public function __construct($judul = "judul", $penerbit = "penerbit", $penulis = "penulis", $harga = 1,  $waktumain = 0)
+
+    {
+        parent::__construct($judul, $penerbit, $penulis, $harga);
+        $this->waktumain = $waktumain;
+    }
+
+    public function setdiskon($diskon)
+    {
+        $this->diskon = $diskon;
+    }
+
+
+    public function getinfoproduk()
+    {
+        $str = "game: " . parent::getinfoproduk() . " ~ {$this->waktumain} jam.";
+        return $str;
+    }
+}
+
+
+
+class komik extends Produk
+{
+    public $jumlahhalaman;
+
+    public function __construct($judul = "judul",  $penerbit = " penerbit", $penulis = "penulis", $harga = 1,  $jumlahhalaman = 0)
+    {
+
+
+        parent::__construct($judul, $penerbit, $penulis, $harga);
+
+        $this->jumlahhalaman = $jumlahhalaman;
+    }
+
+
+
+    public function getinfoproduk()
+    {
+        $str = "komik: " . parent::getinfoproduk() . " - {$this->jumlahhalaman} halaman.";
+        return $str;
+    }
+}
+
+
+
+
+class cetakinfoproduk
+{
+    public function cetak(produk $produk)
+    {
+        $str = "{$produk->judul} | {$produk->getlabel()} (Rp. {$produk->harga})";
+        return $str;
+    }
+}
+
+
+
+
+$produk1 = new komik("doraemon", "fujiko", "shogakukan", 8000, 200);
+$produk2 = new game("undercard", "neil druckman", "sony computer", 12000, 80);
+
+//komik : shogakukan, fujiko
+//game : sony computer, neil druckman
+//doraemon | shogakukan, fujiko (Rp. 8000)
+
+echo $produk1->getinfoproduk();
+echo "<br>";
+echo $produk2->getinfoproduk();
+echo "<hr>";
+
+$produk2->setdiskon(50);
+echo $produk2->getharga();
+echo "<hr>";
+
+
+$produk1->setjudul("Muhammad Agung Ramadhan");
+echo $produk1->getjudul();
